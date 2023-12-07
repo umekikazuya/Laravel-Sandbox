@@ -1,0 +1,4 @@
+name: laravel-sandbox
+recipe: laravel
+config:
+  webroot: app/public
