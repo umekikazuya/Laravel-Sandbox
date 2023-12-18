@@ -56,9 +56,9 @@
         </div>
         <form class="flex items-center p-4 border-t border-gray-300" action="/chat" method="POST">
             @csrf
-            <input type="hidden" name="user_identifier" value="{{$user_identifier}}">
-            <input class="flex-1 px-4 py-2 mr-2 border rounded-full focus:outline-none focus:border-blue-500" type="text" name="user_name" placeholder="UserName" maxlength="20" value="{{$user_name}}">
-            <input class="flex-1 px-4 py-2 mr-2 border rounded-full focus:outline-none focus:border-blue-500" type="text" name="message" placeholder="Input message." maxlength="200" autofocus>
+            <input type="hidden" name="user_identifier" value="{{ session('user_identifier') }}">
+            <input class="flex-1 px-4 py-2 mr-2 border rounded-full focus:outline-none focus:border-blue-500" type="text" name="user_name" placeholder="UserName" maxlength="20" value="{{session('user_name')}}" required>
+            <input class="flex-1 px-4 py-2 mr-2 border rounded-full focus:outline-none focus:border-blue-500" type="text" name="message" placeholder="Input message." maxlength="200" autofocus required>
             <button class="bg-blue-500 text-white px-6 py-2 rounded-full focus:outline-none hover:bg-blue-600" type="submit">Send</button>
         </form>
     </body>

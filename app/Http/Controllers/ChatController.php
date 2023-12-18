@@ -15,17 +15,16 @@ class ChatController extends Controller
      */
     public function index(Request $request)
     {
-        $user_identifier = $request->session()->get('user_identifier', Str::random(20));
-        session(['user_identifier' => $user_identifier]);
+        if($request->session()->missing('user_identifier')){ session(['user_identifier' => Str::random(20)]); }
 
-        $user_name = $request->session()->get('user_name', '匿名');
+        if($request->session()->missing('user_name')){ session(['user_name' => '匿名']); }
 
         $length = Chat::all()->count();
 
         $display = 5;
 
         $chat = Chat::offset($length - $display)->limit($display)->get();
-        return view('chat/index',compact('chat','user_identifier', 'user_name'));
+        return view('chat/index',compact('chat'));
     }
 
     /**
