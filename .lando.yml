@@ -1,5 +1,4 @@
 name: laravel-sandbox
 recipe: laravel
 config:
-  webroot: app/public
-  database: mysql
+  webroot: public
