@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Chat;
 use Illuminate\Http\Request;
 
 class ChatController extends Controller
@@ -13,7 +14,12 @@ class ChatController extends Controller
      */
     public function index()
     {
-        return view('chat/index');
+        $length = Chat::all()->count();
+
+        $display = 5;
+
+        $chat = Chat::offset($length - $display)->limit($display)->get();
+        return view('chat/index', compact('chat'));
     }
 
     /**
@@ -34,7 +40,10 @@ class ChatController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $chat = new Chat;
+        $form = $request->all();
+        $chat->fill($form)->save();
+        return redirect('/chat');
     }
 
     /**
