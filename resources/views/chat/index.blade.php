@@ -13,21 +13,53 @@
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         <script src="{{ asset('js/app.js') }}"></script>
     </head>
-    <body class="w-4/5 md:w-3/5 lg:w-2/5 m-auto">
-        <h1 class="my-4 text-3xl font-bold">{{env('APP_NAME')}}</h1>
-        <div class="my-4 p-4 rounded-lg bg-blue-200">
-            <ul class="list-none">
+    <body class="font-sans bg-gray-100">
+        <div class="max-w-xl mx-auto flex flex-col h-screen">
+            <h1 class="my-4 text-3xl font-bold">{{env('APP_NAME')}}</h1>
+            <ul class="flex-1 overflow-y-auto">
                 @foreach ($chat as $o)
-                    <li class="truncate py-1 px-2 mb-2 rounded-lg bg-white">{{ $o->getData() }}</li>
+                    @if ($o->user_identifier === session('user_identifier'))
+                        <!-- Message from self -->
+                        <li class="flex items-end mb-4 justify-end">
+                            <div class="mr-3">
+                                <div class="bg-blue-500 text-white p-3 rounded-lg shadow">
+                                    <p class="text-sm text-gray-600">{{ $o->user_name }}</p>
+                                    <p class="text-md">{{ $o->message }}</p>
+                                </div>
+                            </div>
+                            <div class="flex-shrink-0">
+                                <div class="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-gray-600">
+                                    <span class="text-sm font-semibold"></span>
+                                </div>
+                            </div>
+                        </li>
+                    @else
+                        <!-- Message from others -->
+                        <li class="flex items-start mb-4">
+                            <div class="flex-shrink-0">
+                                <div class="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-gray-600">
+                                    <span class="text-sm font-semibold"></span>
+                                </div>
+                            </div>
+                            <div class="ml-3">
+                                <div class="bg-white p-3 rounded-lg shadow">
+                                    <p class="text-sm text-gray-600">{{ $o->user_name }}</p>
+                                    <p class="text-md">{{ $o->message }}</p>
+                                </div>
+                            </div>
+                        </li>
+                    @endif
+
+
                 @endforeach
             </ul>
         </div>
-        <form class="my-4 py-2 px-4 rounded-lg bg-gray-300 text-sm flex flex-col md:flex-row flex-grow" action="/chat" method="POST">
+        <form class="flex items-center p-4 border-t border-gray-300" action="/chat" method="POST">
             @csrf
-            <input type="hidden" name="user_identifier" value="test">
-            <input class="py-1 px-2 rounded text-center flex-initial" type="text" name="user_name" placeholder="UserName" maxlength="20">
-            <input class="mt-2 md:mt-0 md:ml-2 py-1 px-2 rounded flex-auto" type="text" name="message" placeholder="Input message." maxlength="200">
-            <button class="mt-2 md:mt-0 md:ml-2 py-1 px-2 rounded text-center bg-gray-500 text-white" type="submit">Send</button>
+            <input type="hidden" name="user_identifier" value="{{$user_identifier}}">
+            <input class="flex-1 px-4 py-2 mr-2 border rounded-full focus:outline-none focus:border-blue-500" type="text" name="user_name" placeholder="UserName" maxlength="20" value="{{$user_name}}">
+            <input class="flex-1 px-4 py-2 mr-2 border rounded-full focus:outline-none focus:border-blue-500" type="text" name="message" placeholder="Input message." maxlength="200" autofocus>
+            <button class="bg-blue-500 text-white px-6 py-2 rounded-full focus:outline-none hover:bg-blue-600" type="submit">Send</button>
         </form>
     </body>
 </html>
