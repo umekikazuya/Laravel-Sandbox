@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Chat;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ChatController extends Controller
 {
@@ -12,14 +13,19 @@ class ChatController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $user_identifier = $request->session()->get('user_identifier', Str::random(20));
+        session(['user_identifier' => $user_identifier]);
+
+        $user_name = $request->session()->get('user_name', '匿名');
+
         $length = Chat::all()->count();
 
         $display = 5;
 
         $chat = Chat::offset($length - $display)->limit($display)->get();
-        return view('chat/index', compact('chat'));
+        return view('chat/index',compact('chat','user_identifier', 'user_name'));
     }
 
     /**
@@ -40,6 +46,8 @@ class ChatController extends Controller
      */
     public function store(Request $request)
     {
+        session(['user_name' => $request->user_name]);
+
         $chat = new Chat;
         $form = $request->all();
         $chat->fill($form)->save();
