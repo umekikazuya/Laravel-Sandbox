@@ -1,4 +1,0 @@
-name: laravel-sandbox
-recipe: laravel
-config:
-  webroot: hoge
