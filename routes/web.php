@@ -1,12 +1,17 @@
 <?php
 
-use App\Http\Controllers\ApiController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/dashboard', [DashboardController::class, 'index']);
 
-// API.
-Route::get('/api/only_ajax', [ApiController::class, 'onlyAjax'])->name('api.only_ajax');
-Route::get('/api/exclude_ajax', [ApiController::class, 'excludeAjax'])->name('api.exclude_ajax');
+Route::prefix('profile')->group(function () {
+    Route::get('/', [ProfileController::class, 'show']);
+    Route::post('/', [ProfileController::class, 'store']);
+    Route::put('/', [ProfileController::class, 'update']);
+    Route::delete('/', [ProfileController::class, 'destroy']);
+});

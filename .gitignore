@@ -1,20 +1,39 @@
-/.phpunit.cache
-/node_modules
-/public/build
-/public/hot
-/public/storage
-/storage/*.key
-/vendor
-.env
-.env.backup
-.env.production
-.phpactor.json
-.phpunit.result.cache
-Homestead.json
-Homestead.yaml
-auth.json
+# Created by https://www.toptal.com/developers/gitignore/api/laravel,sam
+# Edit at https://www.toptal.com/developers/gitignore?templates=laravel,sam
+
+### Laravel ###
+/vendor/
+node_modules/
 npm-debug.log
 yarn-error.log
-/.fleet
-/.idea
-/.vscode
+
+# Laravel 4 specific
+bootstrap/compiled.php
+app/storage/
+
+# Laravel 5 & Lumen specific
+public/storage
+public/hot
+
+# Laravel 5 & Lumen specific with changed public path
+public_html/storage
+public_html/hot
+
+storage/*.key
+.env
+Homestead.yaml
+Homestead.json
+/.vagrant
+.phpunit.result.cache
+
+### SAM ###
+# Ignore build directories for the AWS Serverless Application Model (SAM)
+# Info: https://aws.amazon.com/serverless/sam/
+# Docs: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-reference.html
+
+**/.aws-sam
+
+### Editor ###
+**/.vscode/
+
+# End of https://www.toptal.com/developers/gitignore/api/laravel,sam
