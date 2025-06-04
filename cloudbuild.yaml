@@ -1,0 +1,34 @@
+steps:
+  # Docker build
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      [
+        'build',
+        '-t',
+        'asia-northeast1-docker.pkg.dev/$PROJECT_ID/my-repo/laravel-api:latest',
+        '.'
+      ]
+
+  # Docker push
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      [
+        'push',
+        'asia-northeast1-docker.pkg.dev/$PROJECT_ID/my-repo/laravel-api:latest'
+      ]
+
+  # Cloud Run deploy
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      [
+        'run', 'deploy', 'laravel-api',
+        '--image', 'asia-northeast1-docker.pkg.dev/$PROJECT_ID/my-repo/laravel-api:latest',
+        '--region', 'asia-northeast1',
+        '--platform', 'managed',
+        '--port', '8083',
+        '--allow-unauthenticated'
+      ]
+
+images:
+  - 'asia-northeast1-docker.pkg.dev/$PROJECT_ID/my-repo/laravel-api:latest'
