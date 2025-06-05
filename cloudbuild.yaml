@@ -19,9 +19,11 @@ steps:
       '--image', 'asia-northeast1-docker.pkg.dev/$PROJECT_ID/laravel-sandbox-repo/laravel-api:latest',
       '--region', 'asia-northeast1',
       '--platform', 'managed',
-      '--port', '8083', # Dockerfileに合わせる
-      '--allow-unauthenticated' # 公開可否で要検討
+      '--port', '80',
+      '--allow-unauthenticated'
     ]
 
 images:
   - 'asia-northeast1-docker.pkg.dev/$PROJECT_ID/laravel-sandbox-repo/laravel-api:latest'
+options:
+  logging: CLOUD_LOGGING_ONLY
